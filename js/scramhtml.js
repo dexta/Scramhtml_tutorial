@@ -35,16 +35,38 @@ function draw(){
 		fps += (thisFrame - fps) / fpsFilter;
 		lastUpdate = now;
 		}
+	if(SHIP) doMove();
 	ctx.save();
 	clearAll();
 	ctx.lineCap = "round";		
 	ctx.lineWidth = 2;
 	if(MONTAIN) montain();
+	if(SHIP) ship(shipP[0],shipP[1]);
 	ctx.restore();
 	$("#score").html(tick++);
 	if(FPS) $("#fps").html(""+roto(fps,4));
 	if(TPD) draw_time();
 	lockDraw = false;
+	$("#shoot").html(kleft+" - "+kright+" - "+kup+" - "+kdown+" "+shipP);
+}
+	
+function ship(x,y) {
+	ctx.fillStyle = "rgb(100,100,200)";
+	ctx.strokeStyle = "rgb(250,250,250)";
+	ctx.beginPath();
+	ctx.moveTo(x,y);
+	ctx.lineTo(x-30,y-10);
+	ctx.lineTo(x-30,y+10);
+	ctx.lineTo(x,y);
+	ctx.stroke();
+	ctx.fill();
+}
+
+function doMove() {
+	if(kleft) shipP[0]--;
+	if(kright) shipP[0]++;
+	if(kup) shipP[1]--;
+	if(kdown) shipP[1]++;
 }
 
 function montain() {
@@ -80,6 +102,25 @@ function roto(no,len) {
 	exp = Math.pow(10,len);
 	return (Math.round(no*exp)/exp);
 	}
+	
+$(document).keydown(function(e){
+	var kc = e.keyCode;
+	if(kc == 37) kleft = true;
+	if(kc == 38) kup = true;
+	if(kc == 39) kright = true;
+	if(kc == 40) kdown = true;
+	if(kc == 88) kfire = true;
+	});
+
+$(document).keyup(function (e) {
+	var kc = e.keyCode;
+	if(kc == 37) kleft = false;
+	if(kc == 38) kup = false;
+	if(kc == 39) kright = false;
+	if(kc == 40) kdown = false;
+	if(kc == 88) kfire = false;
+	});
+
 $('#info').live("click" ,function() {
 	intervalSwitsh();
 	});
