@@ -5,7 +5,7 @@ var shoot = [];
 var stars = [];
 var scrollDist = 0;
 var debug;
-var pause = false,intervalID;
+var pause = true,intervalID;
 var intervalUpdate = (1000/1000);
 var lockDraw = false;
 
