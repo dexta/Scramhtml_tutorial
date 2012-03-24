@@ -1,0 +1,49 @@
+<!DOCTYPE>
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<link rel="stylesheet" href="css/grid.css" />
+<link rel="stylesheet" href="css/formate.css" />
+<script language="JavaScript" src="js/scramvars.js"></script>
+<script language="JavaScript" src="js/scramhtml.js"></script>
+<script type="application/x-javascript">
+	$(document).ready(function() {
+		$('#debug').click( function () {
+			$('.debug').toggle();
+			});
+		});
+</script>
+<title>Simple only Line Art Scramble Remarke</title>
+</head>
+<body>
+
+<div class="container_10">
+	<div class="clear"></div>
+	<div class="grid_1 right legend">Score:	</div>
+	<div class="grid_9 legend" id="score">0	</div>
+	<div class="clear"></div>
+	<div class="grid_10 game">
+		<canvas id="canvas" width="900" height="200"></canvas>
+	</div>
+	<div class="clear"></div>
+	<div class="grid_5 info center"><h5 id="info">(this).pause	</h5></div>
+	<div class="grid_2 prefix_2 center"></div>
+	<div class="clear"></div>
+	<div class="grid_1 fps debug right">FPS:</div>
+	<div class="grid_2 fps debug" id="fps">	</div>
+	<div class="grid_1 fps debug right">sec 2 draw:	</div>
+	<div class="grid_2 fps debug" id="tpd">			</div>	
+	<div class="grid_1 fps debug right">offset:		</div>
+	<div class="grid_3 fps debug" id="scrollDist">	</div>
+	<div class="clear"></div>
+	<div class="grid_3 tick debug right">landscape:	</div>
+	<div class="grid_7 tick debug" id="landscape">	</div>
+	<div class="clear"></div>
+	<div class="grid_3 prefix_2 debug"></div>
+	<div class="grid_3 prefix_2 debug"></div>
+	<div class="clear"></div>
+	<div class="grid_5 bullit debug" id="shoot">	</div>
+	<div class="grid_5 bullit debug" id="missile">	</div>
+</div>
+</body>
+</html>
