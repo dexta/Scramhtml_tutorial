@@ -1,5 +1,8 @@
 function init(){  
 	tick = 1;
+	shootLock = 0;
+	shoot["l"] = [];
+	shoot["r"] = [];
 	ctx = $("#canvas")[0].getContext('2d');
 	WIDTH = $("#canvas").width();
   	HEIGHT = $("#canvas").height();
@@ -42,12 +45,13 @@ function draw(){
 	ctx.lineWidth = 2;
 	if(MONTAIN) montain();
 	if(SHIP) ship(shipP[0],shipP[1]);
+	if(BULLET) bullet();
 	ctx.restore();
 	$("#score").html(tick++);
 	if(FPS) $("#fps").html(""+roto(fps,4));
 	if(TPD) draw_time();
 	lockDraw = false;
-	$("#shoot").html(kleft+" - "+kright+" - "+kup+" - "+kdown+" "+shipP);
+	$("#dmove").html(kleft+" - "+kright+" - "+kup+" - "+kdown+" "+kfire+" "+shipP);
 }
 	
 function ship(x,y) {
@@ -62,11 +66,55 @@ function ship(x,y) {
 	ctx.fill();
 }
 
+function d_bullet(typ,x,y) {
+	ctx.fillStyle = "rgb(255,0,0)";
+	ctx.strokeStyle = "rgb(250,0,0)";
+	ctx.beginPath();
+	if(typ == "l") {
+		ctx.moveTo(x,y);
+		ctx.lineTo(x-15,y+1);
+		ctx.lineTo(x-15,y-1);
+		ctx.lineTo(x,y);
+		ctx.fill();
+		ctx.stroke();
+	}
+	if(typ=="r") {
+		ctx.moveTo(x,y);
+		ctx.lineTo(x,y-9)
+		ctx.lineTo(x-1,y-6)
+		ctx.lineTo(x,y)
+		ctx.fill();
+		ctx.stroke();
+		}
+}
+		
+function bullet() {
+	var ar = ["l","r"];
+	for (var a=0;a<2;a++) {
+		for (var s=0;s<shoot[ar[a]].length;s++) {
+			if(!shoot[ar[a]][s]) {continue;}
+			d_bullet(ar[a],shoot[ar[a]][s][0],shoot[ar[a]][s][1]);
+			if(ar[a] == "l") { shoot[ar[a]][s][0] += 3;}
+			if(ar[a] == "r") { shoot[ar[a]][s][1] += 3; shoot[ar[a]][s][0] -= 1;
+			
+			}
+			if(shoot[ar[a]][s][0] >= WIDTH+30 || shoot[ar[a]][s][1] >= HEIGHT+20) {shoot[ar[a]].splice(s,1);}
+		}
+	$("#shoot").html(shoot["l"].join(" "));
+	$("#missile").html(shoot["r"].join(" "));
+	}
+}
+
 function doMove() {
 	if(kleft) shipP[0]--;
 	if(kright) shipP[0]++;
 	if(kup) shipP[1]--;
 	if(kdown) shipP[1]++;
+	if(kfire && (tick-shootLock) > 20) {
+		shootLock = tick;
+		shoot["l"].push([shipP[0]+20,shipP[1]]);
+		shoot["r"].push([shipP[0]+5,shipP[1]+12]);
+		}
 }
 
 function montain() {
